@@ -59,6 +59,7 @@ interface MutableGenArena<E> : GenArena<E> {
   fun clear()
 }
 
+/** Creates a new [MutableGenArena] with a default capacity. */
 @Suppress("FunctionName")
 fun <E> GenArena(capacity: Int = 4): MutableGenArena<E> = GenArenaImpl(capacity)
 
@@ -82,11 +83,9 @@ internal class GenArenaImpl<E> internal constructor(capacity: Int) : MutableGenA
     reserve(capacity)
   }
 
-  override fun isEmpty() = size == 0
+  override fun isEmpty(): Boolean = size == 0
 
-  override fun contains(key: ArenaKey): Boolean {
-    return get(key) != null
-  }
+  override fun contains(key: ArenaKey): Boolean = get(key) != null
 
   override fun get(key: ArenaKey): E? {
     when (val item = items[key.index]) {
