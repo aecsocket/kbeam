@@ -42,7 +42,7 @@ interface OwnedEventDispatch<E> : EventDispatch<E> {
 /** Creates a new [OwnedEventDispatch] instance with no registered listeners. */
 @Suppress("FunctionName") fun <E> EventDispatch(): OwnedEventDispatch<E> = EventDispatchImpl()
 
-internal class EventDispatchImpl<E> internal constructor() : OwnedEventDispatch<E> {
+private class EventDispatchImpl<E> : OwnedEventDispatch<E> {
   private class Listener<E>(
       val priority: Int,
       val fn: Consumer<E>,

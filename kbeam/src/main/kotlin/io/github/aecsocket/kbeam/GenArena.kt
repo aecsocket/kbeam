@@ -95,7 +95,7 @@ interface MutableGenArena<E> : GenArena<E> {
 @Suppress("FunctionName")
 fun <E> GenArena(capacity: Int = 4): MutableGenArena<E> = GenArenaImpl(capacity)
 
-internal class GenArenaImpl<E> internal constructor(capacity: Int) : MutableGenArena<E> {
+private class GenArenaImpl<E>(capacity: Int) : MutableGenArena<E> {
   private sealed interface Item<T> {
     data class Free<T>(val nextFree: Int) : Item<T>
 
