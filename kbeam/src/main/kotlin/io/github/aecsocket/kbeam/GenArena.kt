@@ -3,23 +3,28 @@ package io.github.aecsocket.kbeam
 import kotlin.math.max
 
 /**
- * A key used in a [GenArena], which is a wrapper around a [Long].
- *
- * The upper 32 bits represent the [index], and the lower 32 bits represent the [gen].
+ * A key used in a [GenArena], which is a wrapper around a [Long]. The upper 32 bits represent the
+ * index at which this key points to ([index]), and the lower 32 bits represent the generation of
+ * the item this key was made for ([gen]).
  */
 @JvmInline
 value class ArenaKey(val self: Long) {
+  /** Creates a key from an index and generation pair. */
   constructor(index: Int, gen: Int) : this((index.toLong() shl 32) or gen.toLong())
 
+  /** The index at which this key points to in an arena's entry list. */
   val index: Int
     get() = (self shr 32).toInt()
 
+  /** The generation of the item this key was made for. */
   val gen: Int
     get() = self.toInt()
 
+  /** Creates a new instance with a specified [index]. */
   fun withIndex(index: Int) =
       ArenaKey((self and 0x00000000_ffffffffu.toLong()) or (index.toLong() shl 32))
 
+  /** Creates a new instance with a specified [gen]. */
   fun withGen(gen: Int) = ArenaKey((self and 0xffffffff_00000000u.toLong()) or gen.toLong())
 
   override fun toString() = "$index/$gen"
@@ -30,9 +35,13 @@ value class ArenaKey(val self: Long) {
  *
  * This is effectively a port of the Rust
  * [`generational_arena` crate](https://docs.rs/generational-arena/latest/generational_arena/), with
- * some implementation details changed.
+ * some implementation details changed. See the documentation there for info on how, why, and when to use this
+ * over a simple list.
  */
 interface GenArena<out E> : Iterable<GenArena.Entry<out E>> {
+  /**
+   * An item stored in an arena, indexed by its key.
+   */
   data class Entry<E>(
       val key: ArenaKey,
       val value: E,
@@ -40,22 +49,57 @@ interface GenArena<out E> : Iterable<GenArena.Entry<out E>> {
     override fun toString() = "($key, $value)"
   }
 
+  /**
+   * Returns the size of the collection.
+   */
   val size: Int
 
+  /**
+   * Returns `true` if the collection is empty (contains no elements), `false` otherwise.
+   */
   fun isEmpty(): Boolean
 
+  /**
+   * Checks if an element with the specified key is contained in this collection.
+   */
   operator fun contains(key: ArenaKey): Boolean
 
+  /**
+   * Gets an element at the specified key if it exists and has the same generation, otherwise
+   * returns null.
+   */
   operator fun get(key: ArenaKey): E?
 }
 
+/**
+ * Returns `true` if the collection is not empty.
+ */
 fun <E> GenArena<E>.isNotEmpty() = !isEmpty()
 
+/**
+ * A generational arena that supports adding and removing elements.
+ *
+ * See [GenArena] for more details.
+ */
 interface MutableGenArena<E> : GenArena<E> {
+  /**
+   * Adds a value to the arena, potentially taking the index of a previous element, but definitely
+   * being uniquely identifiable due to having a new generation.
+   *
+   * @return the key used to identify the element added.
+   */
   fun add(value: E): ArenaKey
 
+  /**
+   * Removes a value from the arena based on the element's key.
+   *
+   * @return the value removed, or `null` if a value for that key did not exist.
+   */
   fun remove(key: ArenaKey): E?
 
+  /**
+   * Removes all values from the arena and resets the generation.
+   */
   fun clear()
 }
 

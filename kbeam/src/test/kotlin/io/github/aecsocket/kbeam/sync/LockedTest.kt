@@ -1,7 +1,6 @@
-package io.github.aecsocket.kbeam
+package io.github.aecsocket.kbeam.sync
 
 import io.github.aecsocket.kbeam.extension.joinAll
-import io.github.aecsocket.kbeam.sync.Locked
 import kotlin.RuntimeException
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -17,10 +17,10 @@ interface EventDispatch<E> {
   /**
    * Registers a listener to run when an event is called.
    *
-   * @param priority When this listener will be run in relation to other listeners. A lower priority
+   * @param priority when this listener will be run in relation to other listeners. A lower priority
    *   runs earlier; a higher priority runs later and has the "final say" on the event. The default
    *   priority is `0`.
-   * @param fn The listener function to run.
+   * @param fn the listener function to run.
    */
   operator fun invoke(priority: Int = 0, fn: Consumer<E>)
 }
