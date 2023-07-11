@@ -14,9 +14,6 @@ jobs:
         distribution: temurin
         java-version: 17
     - uses: gradle/gradle-build-action@v2
-    - name: Check
-      run: |
-        ./gradlew --info --stacktrace spotlessCheck
     - name: Build
       run: |
         ./gradlew --info --stacktrace build
