@@ -19,4 +19,4 @@ jobs:
         ./gradlew --info --stacktrace spotlessCheck
     - name: Build
       run: |
-        ./gradlew --info --stacktrace build reobfJar
+        ./gradlew --info --stacktrace build
