@@ -35,13 +35,11 @@ value class ArenaKey(val self: Long) {
  *
  * This is effectively a port of the Rust
  * [`generational_arena` crate](https://docs.rs/generational-arena/latest/generational_arena/), with
- * some implementation details changed. See the documentation there for info on how, why, and when to use this
- * over a simple list.
+ * some implementation details changed. See the documentation there for info on how, why, and when
+ * to use this over a simple list.
  */
 interface GenArena<out E> : Iterable<GenArena.Entry<out E>> {
-  /**
-   * An item stored in an arena, indexed by its key.
-   */
+  /** An item stored in an arena, indexed by its key. */
   data class Entry<E>(
       val key: ArenaKey,
       val value: E,
@@ -49,19 +47,13 @@ interface GenArena<out E> : Iterable<GenArena.Entry<out E>> {
     override fun toString() = "($key, $value)"
   }
 
-  /**
-   * Returns the size of the collection.
-   */
+  /** Returns the size of the collection. */
   val size: Int
 
-  /**
-   * Returns `true` if the collection is empty (contains no elements), `false` otherwise.
-   */
+  /** Returns `true` if the collection is empty (contains no elements), `false` otherwise. */
   fun isEmpty(): Boolean
 
-  /**
-   * Checks if an element with the specified key is contained in this collection.
-   */
+  /** Checks if an element with the specified key is contained in this collection. */
   operator fun contains(key: ArenaKey): Boolean
 
   /**
@@ -71,9 +63,7 @@ interface GenArena<out E> : Iterable<GenArena.Entry<out E>> {
   operator fun get(key: ArenaKey): E?
 }
 
-/**
- * Returns `true` if the collection is not empty.
- */
+/** Returns `true` if the collection is not empty. */
 fun <E> GenArena<E>.isNotEmpty() = !isEmpty()
 
 /**
@@ -97,9 +87,7 @@ interface MutableGenArena<E> : GenArena<E> {
    */
   fun remove(key: ArenaKey): E?
 
-  /**
-   * Removes all values from the arena and resets the generation.
-   */
+  /** Removes all values from the arena and resets the generation. */
   fun clear()
 }
 
