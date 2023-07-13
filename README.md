@@ -11,7 +11,24 @@ Generic data structure implementations and algorithms for Kotlin
 
 </div>
 
-Even though the name is inspired by the
-[Rust `crossbeam` crate](https://crates.io/crates/crossbeam), this package contains general tools
-for manipulating and representing data. There is no step-by-step guide for the various classes;
-just see the Dokka documentation.
+Provides general tools for manipulating, representing and storing data as well as data flow. The
+name is inspired by the [Rust `crossbeam` crate](https://crates.io/crates/crossbeam), which focuses
+on concurrent data structures.
+
+There is no user documentation; see the Dokka page to get API docs.
+
+## Usage
+
+See the version badges for the latest release and snapshot builds.
+
+```kotlin
+repositories {
+  mavenCentral()
+  // for snapshot builds
+  // maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+}
+
+dependencies {
+  implementation("io.github.aecsocket", "kbeam", "VERSION")
+}
+```

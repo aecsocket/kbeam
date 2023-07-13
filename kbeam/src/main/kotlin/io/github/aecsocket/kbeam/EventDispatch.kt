@@ -22,7 +22,19 @@ interface EventDispatch<E> {
    *   priority is `0`.
    * @param fn the listener function to run.
    */
-  operator fun invoke(priority: Int = 0, fn: Consumer<E>)
+  fun run(priority: Int = 0, fn: Consumer<E>)
+
+  /**
+   * Registers a listener to run when an event is called.
+   *
+   * This method is provided for API convenience.
+   *
+   * @param priority when this listener will be run in relation to other listeners. A lower priority
+   *   runs earlier; a higher priority runs later and has the "final say" on the event. The default
+   *   priority is `0`.
+   * @param fn the listener function to run.
+   */
+  operator fun invoke(priority: Int = 0, fn: Consumer<E>) = run(priority, fn)
 }
 
 /**
@@ -50,7 +62,7 @@ private class EventDispatchImpl<E> : OwnedEventDispatch<E> {
 
   private val listeners = ArrayList<Listener<E>>()
 
-  override fun invoke(priority: Int, fn: Consumer<E>) {
+  override fun run(priority: Int, fn: Consumer<E>) {
     listeners += Listener(priority, fn)
     listeners.sortBy { it.priority }
   }

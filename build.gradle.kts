@@ -3,5 +3,5 @@ plugins {
 }
 
 group = "io.github.aecsocket"
-version = "0.1.1"
+version = "0.1.2-SNAPSHOT"
 description = "Generic data structure implementations and algorithms for Kotlin"

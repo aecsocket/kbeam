@@ -12,6 +12,5 @@ indra {
 }
 
 repositories {
-  if (!ci.get()) mavenLocal()
   mavenCentral()
 }
